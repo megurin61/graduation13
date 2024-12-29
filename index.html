@@ -1,0 +1,1182 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>料理レシピ検索アプリ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- 画像を表示 -->
+    <div class="fullscreen-image-container">
+        <img 
+            src="https://media.istockphoto.com/id/1350787226/ja/%E3%82%B9%E3%83%88%E3%83%83%E3%82%AF%E3%83%95%E3%82%A9%E3%83%88/%E3%83%86%E3%83%BC%E3%83%96%E3%83%AB%E3%81%A7%E3%81%8A%E3%81%84%E3%81%97%E3%81%84%E4%B8%AD%E8%8F%AF%E6%96%99%E7%90%86%E3%82%92%E9%A3%9F%E3%81%B9%E3%82%8B%E5%8F%8B%E4%BA%BA.jpg?s=612x612&w=0&k=20&c=lKcwJi7Dl3Dg-Uj6ZUXQ1BjKV7wUVy4ZfCCCygOavzE=" 
+            alt="Delicious Chinese Food" 
+            class="fullscreen-image">
+        <h1 class="title">Recipe Search App</h1>
+    </div>
+
+    <!-- 検索ボックス -->
+    <div class="search-container">
+        <input type="text" id="search-box" placeholder="Search recipes..." />
+        <button id="search-button">Search</button>
+    </div>
+     
+         <!-- アルファベットボタン -->
+            <div id="alphabet-buttons">
+            <button class="alphabet-button">A</button>
+            <button class="alphabet-button">B</button>
+            <button class="alphabet-button">C</button>
+            <button class="alphabet-button">D</button>
+            <button class="alphabet-button">E</button>
+            <button class="alphabet-button">F</button>
+            <button class="alphabet-button">G</button>
+            <button class="alphabet-button">H</button>
+            <button class="alphabet-button">I</button>
+            <button class="alphabet-button">J</button>
+            <button class="alphabet-button">K</button>
+            <button class="alphabet-button">L</button>
+            <button class="alphabet-button">M</button>
+            <button class="alphabet-button">N</button>
+            <button class="alphabet-button">O</button>
+            <button class="alphabet-button">P</button>
+            <button class="alphabet-button">R</button>
+            <button class="alphabet-button">S</button>
+            <button class="alphabet-button">T</button>
+        </div>
+
+         <!-- レシピリスト -->
+    <h2>Cooking Recipe List</h2>
+    <ul id="recipe-list"></ul>
+
+    <!-- モーダル -->
+    <div class="modal-overlay"></div>
+    <div class="modal" id="recipe-modal">
+        <button class="close-button" id="close-modal">Close</button>
+        <h2 id="modal-title"></h2>
+        <img id="modal-image" src="" alt=""
+            style="width: 100%; height: auto; border-radius: 10px; margin-bottom: 10px;">
+        <p id="modal-description"></p>
+        <h3>Ingredients:</h3>
+        <ul id="modal-ingredients"></ul>
+        <h3>Instructions:</h3>
+        <ol id="modal-instructions"></ol>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="script.js"></script>
+    <script>
+        $(function () {
+            var recipes = [
+
+
+
+                // 他のレシピデータをここに追加
+
+                {
+                    name: "Bacon and Asparagus Stir-fry",
+                    description: "Quick and flavorful stir-fry with bacon and asparagus.",
+                    image: "beacon aspar.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "100g bacon (sliced)",
+                            "1 bunch asparagus (cut into pieces)",
+                            "1 tbsp soy sauce",
+                            "1 tbsp butter"
+                        ]
+                    },
+                    instructions: [
+                        "Cook bacon in a pan until crispy.",
+                        "Add asparagus and stir-fry until tender.",
+                        "Stir in soy sauce and butter. Serve warm."
+                    ]
+                },
+                {
+                    name: "Braised Pork Belly(Kakuni)",
+                    description: "Rich and tender pork belly braised in a savory soy-based sauce.",
+                    image: "kakuni.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "400g pork belly (cut into chunks)",
+                            "2 cups water",
+                            "1/4 cup soy sauce",
+                            "1/4 cup sake",
+                            "1/4 cup mirin",
+                            "2 tbsp sugar",
+                            "1 piece ginger (sliced)"
+                        ]
+                    },
+                    instructions: [
+                        "Sear pork belly in a pot until browned.",
+                        "Add water, soy sauce, sake, mirin, sugar, and ginger.",
+                        "Simmer over low heat until pork is tender and sauce is reduced. Serve warm."
+                    ]
+                },
+                {
+                    name: "Chicken Nanban",
+                    description: "Crispy fried chicken with a sweet and tangy sauce.",
+                    image: "Chicken Nanban.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g chicken thigh (cut into pieces)",
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "Oil for frying"
+                        ],
+                        "For the sauce": [
+                            "3 tbsp soy sauce",
+                            "2 tbsp vinegar",
+                            "1 tbsp sugar"
+                        ],
+                        "For serving": [
+                            "Tartar sauce"
+                        ]
+                    },
+                    instructions: [
+                        "Coat chicken with flour and egg, then deep fry until golden brown.",
+                        "Simmer sauce ingredients in a pan and coat the fried chicken.",
+                        "Serve with tartar sauce on the side."
+                    ]
+                },
+                {
+                    name: "Chicken Piccata",
+                    description: "Tender chicken breast in a flavorful egg coating.",
+                    image: "Chicken Piccata.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 chicken breasts (sliced thinly)",
+                            "1/4 cup flour",
+                            "2 eggs (beaten)",
+                            "1 tbsp grated Parmesan cheese",
+                            "Salt and pepper to taste",
+                            "2 tbsp olive oil"
+                        ]
+                    },
+                    instructions: [
+                        "Season chicken with salt and pepper, then coat with flour.",
+                        "Mix eggs with Parmesan and dip the chicken into the mixture.",
+                        "Pan-fry in olive oil until golden and cooked through. Serve with lemon slices."
+                    ]
+                },
+
+                {
+                    name: "Chicken Soy Sauce and Vinegar Simmered ",
+                    description: "Tangy and savory simmered chicken.",
+                    image: "Vinegar Soy chicken.webp",
+                    ingredients: {
+                        "For the chicken": [
+                            "4 chicken drumsticks",
+                            "2 tbsp soy sauce",
+                            "2 tbsp vinegar",
+                            "1 tbsp sugar",
+                            "1 cup water"
+                        ]
+                    },
+                    instructions: [
+                        "Combine soy sauce, vinegar, sugar, and water in a pot.",
+                        "Add chicken drumsticks and simmer until tender and sauce is reduced."
+                    ]
+                },
+                                {
+                    name: "Chicken Rice",
+                    description: "Savory fried rice with chicken and ketchup.",
+                    image: "Chicken rice.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1 cup cooked rice",
+                            "100g chicken (diced)",
+                            "1/4 onion (chopped)",
+                            "1/4 green bell pepper (chopped)",
+                            "2 tbsp ketchup",
+                            "1 tbsp butter",
+                            "Salt and pepper to taste"
+                        ]
+                    },
+                    instructions: [
+                        "Melt butter in a pan and sauté chicken until cooked.",
+                        "Add onion and bell pepper, and cook until softened.",
+                        "Add rice and ketchup, stirring well. Season with salt and pepper.",
+                        "Serve hot as a main dish."
+                    ]
+                },
+                {
+                    name: "Colorful lunch box (Sanshoku Soboro Bento)",
+                    description: "A colorful bento with minced meat, scrambled eggs, and green vegetables.",
+                    image: "sanshoku.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g ground chicken",
+                            "2 eggs (beaten)",
+                            "1/4 cup green peas or chopped spinach",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sugar",
+                            "1 tsp mirin",
+                            "Steamed rice"
+                        ]
+                    },
+                    instructions: [
+                        "Cook ground chicken in a pan with soy sauce, sugar, and mirin until fully cooked.",
+                        "Scramble eggs in a separate pan.",
+                        "Blanch green peas or spinach.",
+                        "Arrange chicken, eggs, and greens over steamed rice in separate sections."
+                    ]
+                },
+                {
+                    name: "Cream Stew",
+                    description: "Rich and creamy Japanese-style stew.",
+                    image: "cream_stew.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g chicken thigh (cut into bite-sized pieces)",
+                            "1 carrot (sliced)",
+                            "1 potato (diced)",
+                            "1/2 onion (sliced)",
+                            "1/2 cup broccoli (optional)"
+                        ],
+                        "For the sauce": [
+                            "2 tbsp butter",
+                            "2 tbsp flour",
+                            "2 cups milk",
+                            "1 cup chicken stock",
+                            "Salt and pepper to taste"
+                        ]
+                    },
+                    instructions: [
+                        "Cook chicken in a pot until browned, then add vegetables and sauté lightly.",
+                        "In a separate pan, melt butter, add flour, and stir until smooth. Gradually add milk to make a roux.",
+                        "Combine the roux with the chicken and vegetables. Add chicken stock and simmer until vegetables are tender.",
+                        "Season with salt and pepper. Serve warm."
+                    ]
+                },
+                {
+                    name: "Crab Cream Croquettes",
+                    description: "Rich and creamy croquettes filled with crab meat.",
+                    image: "crab cream.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "100g crab meat",
+                            "2 tbsp butter",
+                            "2 tbsp flour",
+                            "1/2 cup milk",
+                            "Salt and pepper to taste",
+                            "1/2 cup flour (for coating)",
+                            "1 egg (beaten for coating)",
+                            "1 cup breadcrumbs",
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Melt butter in a pan and stir in flour to make a roux.",
+                        "Gradually add milk, stirring constantly, to make a thick white sauce.",
+                        "Mix in crab meat, salt, and pepper. Chill the mixture until firm.",
+                        "Shape into patties, coat with flour, egg, and breadcrumbs, and deep fry until golden brown."
+                    ]
+                },
+                {
+                    name: "Croquettes",
+                    description: "Golden and creamy croquettes.",
+                    image: "PAK76_sosutonkatu20141103204835_TP_V4.webp",
+                    ingredients: {
+                        "For the filling": [
+                            "2 medium potatoes (boiled and mashed)",
+                            "50g ground beef or pork",
+                            "1/4 onion (finely chopped)",
+                            "Salt and pepper to taste"
+                        ],
+                        "For coating": [
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "1 cup breadcrumbs"
+                        ],
+                        "For frying": [
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Cook ground meat and onion in a pan until done. Mix with mashed potatoes. Season with salt and pepper.",
+                        "Shape the mixture into patties, then coat with flour, egg, and breadcrumbs.",
+                        "Deep fry until golden brown. Serve hot."
+                    ]
+                },
+
+                {
+                    name: "Deep fried eggplant with ground meet",
+                    description: "Deep-fried eggplant stuffed with seasoned ground meat Japanese style.",
+                    image: "Eggplant fry.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 medium eggplants",
+                            "200g ground pork or beef",
+                            "1/4 onion (finely chopped)",
+                            "Salt and pepper to taste",
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "1 cup panko breadcrumbs",
+                            "Oil for frying"
+                        ]
+                    },
+                    instructions: [
+                        "Slice eggplants lengthwise, leaving them connected at one end to form a pocket.",
+                        "Mix ground meat, onion, salt, and pepper, and stuff into the eggplant pockets.",
+                        "Coat stuffed eggplants with flour, egg, and breadcrumbs.",
+                        "Deep fry until golden brown. Serve with soy sauce or tonkatsu sauce."
+                    ]
+                },
+          
+                {
+                    name: "Deep-fried crispy chiken (Tatsutaage)",
+                    description: "Juicy marinated chicken coated in starch and deep-fried to crispy perfection.",
+                    image: "tatsutaage.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g chicken thigh (cut into bite-sized pieces)",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sake",
+                            "1/2 tsp grated ginger",
+                            "Potato starch (for coating)",
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Marinate chicken in soy sauce, sake, and ginger for 15 minutes.",
+                        "Coat chicken pieces in potato starch.",
+                        "Deep fry until golden and crispy. Serve hot."
+                    ]
+                },
+                {
+                    name: "Deep-fried ground meat (Menchi Katsu)",
+                    description: "Crispy deep-fried ground meat patties.",
+                    image: "Menchi katsu.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "300g ground beef or pork",
+                            "1/4 onion (finely chopped)",
+                            "1/4 cup breadcrumbs",
+                            "1 egg",
+                            "Salt and pepper to taste",
+                            "1/2 cup flour",
+                            "1 egg (beaten for coating)",
+                            "1 cup panko breadcrumbs",
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Mix ground meat, onion, breadcrumbs, egg, salt, and pepper. Shape into patties.",
+                        "Coat each patty with flour, egg, and panko breadcrumbs.",
+                        "Deep fry until golden brown and cooked through. Serve hot."
+                    ]
+                },
+                {
+                    name: "Deep fried pork (Tonkatsu)",
+                    description: "Crispy and juicy Japanese pork cutlet.",
+                    image: "tonkatsu.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 pork loin slices",
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "1 cup panko breadcrumbs",
+                            "Oil for deep frying"
+                        ],
+                        "For serving": [
+                            "Shredded cabbage",
+                            "Tonkatsu sauce"
+                        ]
+                    },
+                    instructions: [
+                        "Pound pork to flatten slightly, then coat with flour, egg, and panko.",
+                        "Deep fry in hot oil until golden brown.",
+                        "Serve with shredded cabbage and tonkatsu sauce."
+                    ]
+                },
+                            
+                {
+                    name: "Deep-fried pork cutlet (tonkatsu), cooked together with a savory-sweet sauce, onions, and eggs(Katsudon)",
+                    description: "A savory pork cutlet rice bowl with eggs and onions.",
+                    image: "Katsudon.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1 cooked tonkatsu (pork cutlet)",
+                            "1/4 onion (sliced)",
+                            "2 eggs (beaten)",
+                            "1/2 cup dashi stock",
+                            "2 tbsp soy sauce",
+                            "1 tbsp mirin",
+                            "1 tsp sugar",
+                            "Steamed rice"
+                        ]
+                    },
+                    instructions: [
+                        "In a pan, simmer dashi, soy sauce, mirin, sugar, and onions until softened.",
+                        "Place tonkatsu on top and pour beaten eggs over it. Cover and cook until eggs are set.",
+                        "Serve over steamed rice."
+                    ]
+                },
+                {
+                    name: "Deep fried Shrimp",
+                    description: "Crispy breaded shrimp, perfect as a side dish or main course.",
+                    image: "Fried Shrimp.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "10 shrimp (peeled and deveined, tails left intact)",
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "1 cup panko breadcrumbs",
+                            "Oil for deep frying"
+                        ],
+                        "For serving": [
+                            "Tartar sauce",
+                            "Lemon wedges"
+                        ]
+                    },
+                    instructions: [
+                        "Coat shrimp in flour, egg, and panko breadcrumbs.",
+                        "Deep fry in hot oil until golden and crispy.",
+                        "Serve with tartar sauce and lemon wedges."
+                    ]
+                },
+
+                {
+                    name: "Egg Omurice",
+                    description: "Delicious fluffy egg omurice recipe.",
+                    image: "adpDSC_2383.jpg",
+                    ingredients: {
+                        "For the fried rice": [
+                            '<a href="https://megurin61.github.io/Rice_EC/" target="_blank">1 cup cooked white rice</a>', // リンクを追加,
+                            "50g chicken breast or thigh (cut into small pieces)",
+                            "1/4 onion (finely chopped)",
+                            "1/4 carrot (finely chopped)",
+                            "1/4 green bell pepper (optional, finely chopped)",
+                            "2 tbsp ketchup",
+                            "1 tbsp soy sauce",
+                            "1 tbsp vegetable oil",
+                            "Salt and pepper to taste"
+                        ],
+                        "For the omelette": [
+                            "2 large eggs",
+                            "1 tbsp milk",
+                            "1 tsp butter"
+                        ],
+                        "For garnish": [
+                            "Extra ketchup"
+                        ]
+                    },
+                    instructions: [
+                        "Heat vegetable oil in a frying pan over medium heat. Sauté the onion, carrot, and bell pepper.",
+                        "Add chicken and cook until done. Mix in rice, soy sauce, and ketchup.",
+                        "Make the omelette: Whisk eggs with milk. Cook in a pan with butter until just set.",
+                        "Place rice on a plate, cover with the omelette, and garnish with ketchup."
+                    ]
+                },
+                {
+                    name: "Egg Sandwich",
+                    description: "Soft and creamy egg salad sandwich on fluffy bread.",
+                    image: "egg sand.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 boiled eggs",
+                            "2 tbsp mayonnaise",
+                            "Salt and pepper to taste",
+                            "4 slices of bread"
+                        ]
+                    },
+                    instructions: [
+                        "Mash boiled eggs and mix with mayonnaise, salt, and pepper.",
+                        "Spread the egg mixture onto bread slices.",
+                        "Assemble sandwiches, cut into halves, and serve."
+                    ]
+                },
+                {
+                    name: "Fried Rice",
+                    description: "Quick and flavorful stir-fried rice with vegetables and meat.",
+                    image: "fried rice.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 cups cooked rice",
+                            "1/4 cup diced ham or chicken",
+                            "1/4 cup mixed vegetables (peas, carrots, corn)",
+                            "1 egg",
+                            "1 tbsp soy sauce",
+                            "1 tbsp oil"
+                        ]
+                    },
+                    instructions: [
+                        "Heat oil in a pan and scramble the egg.",
+                        "Add meat and vegetables, cooking until heated through.",
+                        "Add rice and soy sauce, stirring well. Serve hot."
+                    ]
+                },
+                {
+                    name: "Fried White Fish",
+                    description: "Crispy fried white fish fillets with a light batter.",
+                    image: "fried fish.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g white fish fillets",
+                            "Salt and pepper to taste",
+                            "1/2 cup flour",
+                            "1 egg (beaten)",
+                            "1 cup breadcrumbs",
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Season fish fillets with salt and pepper.",
+                        "Coat with flour, egg, and breadcrumbs.",
+                        "Deep fry until golden and crispy. Serve hot."
+                    ]
+                },
+                {
+                    name: "Ginger Pork Japanese style (Shogayaki)",
+                    description: "Thinly sliced pork sautéed in a savory ginger sauce.",
+                    image: "Shigayaki.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g thinly sliced pork",
+                            "1/4 onion (sliced)",
+                            "2 tbsp soy sauce",
+                            "1 tbsp mirin",
+                            "1 tbsp sake",
+                            "1 tsp grated ginger"
+                        ]
+                    },
+                    instructions: [
+                        "Mix soy sauce, mirin, sake, and ginger in a bowl.",
+                        "Cook pork and onion in a frying pan until browned.",
+                        "Pour sauce over the pork and onion, and simmer for a few minutes.",
+                        "Serve hot with steamed rice."
+                    ]
+                },
+
+                {
+                    name: "Gratin",
+                    description: "Creamy baked casserole topped with cheese.",
+                    image: "Gratin.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g cooked chicken or shrimp",
+                            "1/2 onion (sliced)",
+                            "1/2 cup cooked pasta",
+                            "2 cups white sauce (béchamel)",
+                            "1/2 cup shredded cheese"
+                        ]
+                    },
+                    instructions: [
+                        "Preheat oven to 180°C (350°F).",
+                        "In a baking dish, layer pasta, chicken/shrimp, and onions.",
+                        "Pour white sauce over and top with shredded cheese.",
+                        "Bake until golden and bubbly. Serve hot."
+                    ]
+                },
+                {
+                    name: "Gyudon",
+                    description: "A flavorful Japanese beef rice bowl topped with tender slices of beef and onions.",
+                    image: "gyudon.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g thinly sliced beef",
+                            "1/2 onion (sliced)",
+                            "1/2 cup dashi stock",
+                            "2 tbsp soy sauce",
+                            "1 tbsp mirin",
+                            "1 tsp sugar",
+                            "Steamed rice"
+                        ]
+                    },
+                    instructions: [
+                        "Simmer dashi, soy sauce, mirin, and sugar in a pan. Add onions and cook until softened.",
+                        "Add beef slices and cook until tender.",
+                        "Serve over steamed rice."
+                    ]
+                },
+                {
+                    name: "Hamburger Steak",
+                    description: "Juicy and flavorful hamburger steak.",
+                    image: "Hamburger steak.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "300g ground beef",
+                            "1/2 onion (finely chopped)",
+                            "1 egg",
+                            "1/4 cup breadcrumbs",
+                            "Salt and pepper to taste"
+                        ],
+                        "For the sauce": [
+                            "3 tbsp ketchup",
+                            "2 tbsp Worcestershire sauce"
+                        ]
+                    },
+                    instructions: [
+                        "Mix ground beef, onion, egg, breadcrumbs, salt, and pepper. Shape into patties.",
+                        "Cook patties in a frying pan until browned on both sides.",
+                        "Mix ketchup and Worcestershire sauce in the pan and heat. Serve the patties with sauce."
+                    ]
+                },
+               
+                {
+                    name: "Japanese Fried Chicken (Karaage)",
+                    description: "Crispy and juicy Japanese fried chicken.",
+                    image: "karaage.jpg",
+                    ingredients: {
+                        "For the chicken": [
+                            "300g chicken thigh (cut into bite-sized pieces)",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sake",
+                            "1 tsp grated garlic",
+                            "1 tsp grated ginger"
+                        ],
+                        "For coating": [
+                            "1/2 cup potato starch",
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Marinate chicken with soy sauce, sake, garlic, and ginger for 30 minutes.",
+                        "Coat chicken pieces with potato starch.",
+                        "Heat oil to 170°C (340°F) and deep fry chicken until golden brown.",
+                        "Serve immediately."
+                    ]
+                },
+
+                {
+                    name: "Japanese side dish of boiled spinach (Horenso Ohitashi)",
+                    description: "Simple Japanese side dish of boiled spinach with soy sauce.",
+                    image: "horenso.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1 bunch spinach",
+                            "2 tbsp soy sauce",
+                            "1 tbsp bonito flakes (optional)"
+                        ]
+                    },
+                    instructions: [
+                        "Blanch spinach in boiling water, then cool in ice water.",
+                        "Squeeze out excess water and cut into bite-sized pieces.",
+                        "Serve with soy sauce and sprinkle with bonito flakes if desired."
+                    ]
+                },
+                {
+                    name: "Japanese-Style Soy Sauce Pasta with Mushrooms and Bacon",
+                    description: "Savory pasta with a Japanese twist.",
+                    image: "Soysource pasta.webp",
+                    ingredients: {
+                        "For the pasta": [
+                            "200g spaghetti",
+                            "50g bacon (sliced)",
+                            "100g mixed mushrooms",
+                            "2 tbsp soy sauce",
+                            "2 tbsp butter",
+                            "1 clove garlic (minced)"
+                        ]
+                    },
+                    instructions: [
+                        "Cook spaghetti according to package instructions.",
+                        "Sauté garlic, bacon, and mushrooms in butter. Add soy sauce.",
+                        "Mix cooked pasta with the sauce and serve immediately."
+                    ]
+                },
+
+                {
+                    name: "Japanese rolled omelet (Tamagoyaki)",
+                    description: "Japanese rolled omelet with a slightly sweet flavor.",
+                    image: "tamagoyaki.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "3 eggs",
+                            "1 tbsp sugar",
+                            "1 tsp soy sauce",
+                            "1 tsp mirin",
+                            "Oil for frying"
+                        ]
+                    },
+                    instructions: [
+                        "Beat eggs with sugar, soy sauce, and mirin.",
+                        "Heat a rectangular tamagoyaki pan and lightly oil it.",
+                        "Pour a thin layer of egg mixture, cook until set, and roll it up. Repeat with remaining egg mixture.",
+                        "Slice and serve warm or at room temperature."
+                    ]
+                },
+                   {
+                    name: "Miso Soup",
+                    description: "Traditional miso soup recipe.",
+                    image: "e51m_7767.jpg",
+                    ingredients: {
+                        "Main Ingredients": [
+                            "Water: 500ml",
+                            "150ml cream sauce",
+                            "Miso paste: 2 tablespoons",
+                            "Dashi granules: 1 teaspoon",
+                            "Tofu: 100g",
+                            "Chopped green onion: To taste"
+                        ]
+                    },
+                    instructions: [
+                        "In a pot, add water and dashi granules, then heat over medium heat.",
+                        "Before the water boils, lower the heat and add tofu cut into bite-sized cubes.",
+                        "Dissolve the miso paste into the soup using a ladle.",
+                        "Serve in bowls and garnish with chopped green onion."
+                    ]
+                },
+                {
+                    name: "Miso Soup with pork (Tonjiru)",
+                    description: "Hearty miso soup with pork and root vegetables.",
+                    image: "tonjiru.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "100g thinly sliced pork",
+                            "1/4 daikon radish (sliced)",
+                            "1/2 carrot (sliced)",
+                            "1 potato (cubed)",
+                            "1/4 block tofu (cubed)",
+                            "4 cups dashi stock",
+                            "2 tbsp miso"
+                        ]
+                    },
+                    instructions: [
+                        "In a pot, cook pork and vegetables in dashi stock until tender.",
+                        "Dissolve miso into the soup. Add tofu and simmer briefly.",
+                        "Serve hot."
+                    ]
+                },
+                {
+                    name: "Okinawan stlye stir-fry (Goya Champuru)",
+                    description: "Okinawan stir-fry with bitter melon, tofu, and pork.",
+                    image: "goya.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1 goya (bitter melon, sliced)",
+                            "1/4 block firm tofu",
+                            "100g pork belly (sliced)",
+                            "2 eggs",
+                            "1 tbsp soy sauce",
+                            "Oil for cooking"
+                        ]
+                    },
+                    instructions: [
+                        "Blanch goya in boiling water to reduce bitterness.",
+                        "Stir-fry tofu, pork, and goya in a pan until cooked.",
+                        "Add beaten eggs and soy sauce, stirring until eggs are set. Serve warm."
+                    ]
+                },                         
+               {
+                    name: "Oyakodon(classic Japanese rice bowl dish featuring tender chicken and fluffy eggs simmered in a savory-sweet soy-based sauce.)",
+                    description: "Classic chicken and egg rice bowl.",
+                    image: "Oyakodon.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g chicken thigh (cut into bite-sized pieces)",
+                            "1/4 onion (sliced)",
+                            "2 eggs (beaten)",
+                            "1/2 cup dashi stock",
+                            "2 tbsp soy sauce",
+                            "1 tbsp mirin",
+                            "Steamed rice"
+                        ]
+                    },
+                    instructions: [
+                        "Simmer dashi, soy sauce, mirin, and onion in a pan until softened.",
+                        "Add chicken and cook until done, then pour beaten eggs over the top. Cover and cook until eggs are slightly set.",
+                        "Serve over steamed rice."
+                    ]
+                },
+                {
+                    name: "Potato Salad",
+                    description: "Creamy Japanese-style potato salad.",
+                    image: "Potato salada.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "3 medium potatoes (boiled and mashed)",
+                            "1/2 cucumber (thinly sliced)",
+                            "1/4 carrot (grated)",
+                            "1/2 cup mayonnaise",
+                            "Salt and pepper to taste"
+                        ]
+                    },
+                    instructions: [
+                        "Mix mashed potatoes with cucumber and carrot.",
+                        "Stir in mayonnaise and season with salt and pepper.",
+                        "Chill before serving."
+                    ]
+                },
+
+                {
+                    name: "Pork Steak",
+                    description: "Juicy and flavorful pork steak.",
+                    image: "Grilled pork.webp",
+                    ingredients: {
+                        "For the steak": [
+                            "2 pork steaks",
+                            "Salt and pepper to taste",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sake",
+                            "1 tbsp mirin"
+                        ]
+                    },
+                    instructions: [
+                        "Season pork steaks with salt and pepper.",
+                        "Cook in a pan until both sides are golden brown.",
+                        "Add soy sauce, sake, and mirin to the pan. Simmer until sauce thickens."
+                    ]
+                },
+                {
+                    name: "Pudding",
+                    description: "Creamy custard pudding with a caramel topping.",
+                    image: "pudding.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 cups milk",
+                            "3 eggs",
+                            "1/4 cup sugar",
+                            "1/4 cup sugar (for caramel)"
+                        ]
+                    },
+                    instructions: [
+                        "Heat sugar in a pan to make caramel and pour into molds.",
+                        "Mix milk, eggs, and sugar until smooth. Strain and pour over the caramel.",
+                        "Steam or bake in a water bath until set. Chill and serve."
+                    ]
+                },
+                {
+                    name: "Rolled Cabbage",
+                    description: "Tender cabbage leaves stuffed with a savory meat filling.",
+                    image: "Roll cabbage.webp",
+                    ingredients: {
+                        "Main ingredients": [
+                            "8 cabbage leaves",
+                            "200g ground beef or pork",
+                            "1/4 onion (finely chopped)",
+                            "1/2 cup cooked rice",
+                            "Salt and pepper to taste"
+                        ],
+                        "For the sauce": [
+                            "2 cups tomato sauce",
+                            "1 cup water",
+                            "1 tsp sugar",
+                            "1 tbsp Worcestershire sauce"
+                        ]
+                    },
+                    instructions: [
+                        "Blanch cabbage leaves to soften, then mix ground meat, onion, rice, salt, and pepper.",
+                        "Wrap the filling with cabbage leaves and secure with toothpicks.",
+                        "Simmer in tomato sauce mixture until fully cooked. Serve warm."
+                    ]
+                },
+                {
+                    name: "Simmered Meat and Potatoes (Nikujaga)",
+                    description: "Classic Japanese comfort food.",
+                    image: "nikujyaga.avif",
+                    ingredients: {
+                        "For the stew": [
+                            "200g beef (thinly sliced)",
+                            "2 medium potatoes (peeled and cut into chunks)",
+                            "1 carrot (sliced)",
+                            "1 onion (sliced)",
+                            "2 tbsp soy sauce",
+                            "2 tbsp mirin",
+                            "1 tbsp sugar",
+                            "2 cups dashi stock"
+                        ]
+                    },
+                    instructions: [
+                        "In a pot, combine dashi stock, soy sauce, mirin, and sugar. Bring to a boil.",
+                        "Add beef, potatoes, carrot, and onion. Simmer until vegetables are tender.",
+                        "Serve warm."
+                    ]
+                },
+                {
+                    name: "Spicy hot pot dish with kimchi (Kimchi Nabe)",
+                    description: "Spicy hot pot dish with kimchi, tofu, pork, and vegetables in a flavorful broth.",
+                    image: "kimuchinabe.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g thinly sliced pork",
+                            "1/2 cup kimchi",
+                            "1/4 block tofu (cubed)",
+                            "1/4 napa cabbage (chopped)",
+                            "1/4 carrot (sliced)",
+                            "2 cups dashi stock",
+                            "1 tbsp soy sauce",
+                            "1 tsp sesame oil"
+                        ]
+                    },
+                    instructions: [
+                        "In a pot, heat sesame oil and sauté kimchi until fragrant.",
+                        "Add dashi stock, soy sauce, pork, and vegetables. Simmer until cooked.",
+                        "Add tofu and simmer briefly. Serve hot."
+                    ]
+                },
+                {
+                    name: "Stir-fry vegetable Japanese style",
+                    description: "Simple and delicious vegetable stir-fry.",
+                    image: "Vegitable_stir_fry.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1/2 cabbage (chopped)",
+                            "1 carrot (sliced)",
+                            "1/2 onion (sliced)",
+                            "1 bell pepper (sliced)",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sesame oil",
+                            "Salt and pepper to taste"
+                        ]
+                    },
+                    instructions: [
+                        "Heat sesame oil in a pan and stir-fry vegetables.",
+                        "Add soy sauce, salt, and pepper, and cook until tender.",
+                        "Serve hot as a side dish."
+                    ]
+                },
+                {
+                    name: "Sukiyaki",
+                    description: "A savory hot pot dish with beef, vegetables, tofu, and shirataki noodles in a sweet soy-based broth.",
+                    image: "sukiyaki.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g thinly sliced beef",
+                            "1/4 block tofu (cubed)",
+                            "1/2 cup shirataki noodles",
+                            "1/4 onion (sliced)",
+                            "1/4 carrot (sliced)",
+                            "1/2 cup dashi stock",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sugar",
+                            "1 tbsp mirin"
+                        ]
+                    },
+                    instructions: [
+                        "In a hot pot, simmer dashi, soy sauce, sugar, and mirin.",
+                        "Add beef, tofu, noodles, and vegetables. Cook until all ingredients are tender.",
+                        "Serve hot, optionally with a raw egg for dipping."
+                    ]
+                },
+                {
+                    name: "Sweet Potato Japanese style (Daigaku Imo)",
+                    description: "Sweet and crispy Japanese candied sweet potatoes.",
+                    image: "daigakuimo.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "2 medium sweet potatoes",
+                            "Oil for deep frying",
+                            "2 tbsp sugar",
+                            "1 tbsp soy sauce",
+                            "1 tbsp honey",
+                            "Black sesame seeds for garnish"
+                        ]
+                    },
+                    instructions: [
+                        "Cut sweet potatoes into bite-sized pieces and deep fry until tender.",
+                        "In a pan, heat sugar, soy sauce, and honey to make a syrup.",
+                        "Toss fried sweet potatoes in the syrup and sprinkle with sesame seeds."
+                    ]
+                },
+                {
+                    name: "Tempura",
+                    description: "Crispy Japanese tempura.",
+                    image: "Tempra.jpg",
+                    ingredients: {
+                        "For the batter": [
+                            "1 cup all-purpose flour",
+                            "1 cup ice-cold water",
+                            "1 egg"
+                        ],
+                        "For the filling": [
+                            "Shrimp, vegetables (sweet potato, eggplant, etc.)"
+                        ],
+                        "For frying": [
+                            "Oil for deep frying"
+                        ]
+                    },
+                    instructions: [
+                        "Mix batter ingredients until just combined. Do not overmix.",
+                        "Coat shrimp and vegetables with batter.",
+                        "Deep fry in oil heated to 180°C (350°F) until crispy and golden."
+                    ]
+                },
+
+                {
+                    name: "Tendon",
+                    description: "Crispy tempura served over a bowl of steamed rice with a savory sauce.",
+                    image: "tendon.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "Assorted tempura (shrimp, vegetables, etc.)",
+                            "Steamed rice",
+                            "1/2 cup tempura dipping sauce (tsuyu)"
+                        ]
+                    },
+                    instructions: [
+                        "Place steamed rice in a bowl.",
+                        "Arrange tempura pieces on top.",
+                        "Drizzle tempura dipping sauce over the tempura and rice. Serve immediately."
+                    ]
+                },
+                {
+                    name: "Teriyaki Chicken",
+                    description: "Sweet and savory teriyaki chicken.",
+                    image: "70839947.webp",
+                    ingredients: {
+                        "For the chicken": [
+                            "2 chicken thighs",
+                            "2 tbsp soy sauce",
+                            "2 tbsp sake",
+                            "2 tbsp mirin",
+                            "1 tbsp sugar"
+                        ]
+                    },
+                    instructions: [
+                        "Combine soy sauce, sake, mirin, and sugar to make the sauce.",
+                        "Cook chicken skin-side down in a pan until browned, then flip and cook the other side.",
+                        "Pour the sauce over the chicken and simmer until thickened. Serve with rice."
+                    ]
+                },
+                {
+                    name: "Tofu Hamburger",
+                    description: "Light and healthy tofu patties with a savory glaze.",
+                    image: "tofu hanberg.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1/2 block firm tofu",
+                            "100g ground chicken",
+                            "1/4 onion (chopped)",
+                            "1 egg",
+                            "Salt and pepper to taste",
+                            "2 tbsp soy sauce",
+                            "1 tbsp sugar",
+                            "1 tbsp mirin"
+                        ]
+                    },
+                    instructions: [
+                        "Mix tofu, ground chicken, onion, egg, salt, and pepper. Shape into patties.",
+                        "Cook in a pan until golden on both sides and cooked through.",
+                        "Mix soy sauce, sugar, and mirin in the pan to make a glaze. Coat the patties with the glaze."
+                    ]
+                },
+                {
+                    name: "Tofu Steak",
+                    description: "Pan-fried tofu steaks with a rich soy-based sauce.",
+                    image: "tofu steak.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "1/2 block firm tofu",
+                            "2 tbsp soy sauce",
+                            "1 tbsp mirin",
+                            "1 tbsp sake",
+                            "1 tsp grated ginger",
+                            "Oil for cooking"
+                        ]
+                    },
+                    instructions: [
+                        "Cut tofu into thick slices and pat dry.",
+                        "Pan-fry tofu slices in a lightly oiled pan until golden on both sides.",
+                        "Mix soy sauce, mirin, sake, and ginger in the pan. Cook tofu in the sauce briefly. Serve warm."
+                    ]
+                },
+
+                {
+                    name: "Traditional Japanese style Pasta (Napolitan)",
+                    description: "Classic Japanese ketchup-based spaghetti.",
+                    image: "Napolitan.jpg",
+                    ingredients: {
+                        "Main ingredients": [
+                            "200g spaghetti (cooked)",
+                            "1/2 onion (sliced)",
+                            "1/2 bell pepper (sliced)",
+                            "2 sausages (sliced)",
+                            "3 tbsp ketchup",
+                            "1 tbsp butter",
+                            "Salt and pepper to taste"
+                        ]
+                    },
+                    instructions: [
+                        "Melt butter in a pan and sauté onion, bell pepper, and sausages.",
+                        "Add cooked spaghetti and ketchup, stirring until well combined.",
+                        "Season with salt and pepper. Serve immediately."
+                    ]
+                },
+            ];
+
+            displayRecipes(recipes);
+
+            $('#search-button').click(function () {
+                var searchQuery = $('#search-box').val().toLowerCase();
+                var filteredRecipes = recipes.filter(function (recipe) {
+                    return recipe.name.toLowerCase().includes(searchQuery);
+                });
+
+                $('#recipe-list').empty();
+                displayRecipes(filteredRecipes);
+            });
+
+            $('.alphabet-button').click(function () {
+                var alphabet = $(this).text().toLowerCase();
+                var filteredRecipes = recipes.filter(function (recipe) {
+                    return recipe.name.toLowerCase().startsWith(alphabet);
+                });
+
+                $('#recipe-list').empty();
+                displayRecipes(filteredRecipes);
+            });
+
+            function displayRecipes(recipeArray) {
+                if (recipeArray.length > 0) {
+                    recipeArray.forEach(function (recipe) {
+                        var recipeHtml = '<li>' +
+                            '<a href="#" class="recipe-link" data-name="' + recipe.name + '">' + recipe.name + '</a>' +
+                            '</li>';
+                        $('#recipe-list').append(recipeHtml);
+                    });
+
+                    $('.recipe-link').click(function (e) {
+                        e.preventDefault();
+                        var recipeName = $(this).data('name');
+                        var recipe = recipes.find(function (r) {
+                            return r.name === recipeName;
+                        });
+
+                        if (recipe) {
+                            $('#modal-title').text(recipe.name);
+                            $('#modal-description').text(recipe.description);
+                            $('#modal-image').attr('src', recipe.image);
+                            $('#modal-ingredients').empty();
+                            $('#modal-instructions').empty();
+
+                            // 修正: セクションごとに材料を表示
+                            if (recipe.ingredients) {
+                                for (var section in recipe.ingredients) {
+                                    if (recipe.ingredients.hasOwnProperty(section)) {
+                                        var sectionHtml = '<h4>' + section + '</h4><ul>';
+                                        recipe.ingredients[section].forEach(function (ingredient) {
+                                            sectionHtml += '<li>' + ingredient + '</li>';
+                                        });
+                                        sectionHtml += '</ul>';
+                                        $('#modal-ingredients').append(sectionHtml);
+                                    }
+                                }
+                            }
+
+                            if (recipe.instructions) {
+                                recipe.instructions.forEach(function (step) {
+                                    $('#modal-instructions').append('<li>' + step + '</li>');
+                                });
+                            }
+
+                            $('.modal-overlay').show();
+                            $('#recipe-modal').show();
+                        }
+                    });
+                } else {
+                    $('#recipe-list').append('<li>No recipes found.</li>');
+                }
+            }
+
+            $('#close-modal, .modal-overlay').click(function () {
+                $('.modal-overlay').hide();
+                $('#recipe-modal').hide();
+            });
+        });
+    </script>
+</body>
+
+</html>

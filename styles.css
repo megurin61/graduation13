@@ -1,0 +1,248 @@
+/* General Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #ffe4e1; /* 優しいピンク色 */
+    color: #333;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+/* 背景画像エリア */
+.fullscreen-image-container {
+    position: relative;
+    width: 100%;
+    height: 300px; /* 高さを調整 */
+    overflow: hidden; /* はみ出しを隠す */
+    background-color: #f0f0f0;
+}
+
+/* 背景画像 */
+.fullscreen-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* タイトルスタイル */
+.title {
+    position: absolute;
+    top: 10%; /* 写真上部に余白を設定 */
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+/* 検索ボタンのスタイル */
+.search-container {
+    position: absolute;
+    top: 28%; /* 写真の上部に近づける */
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.search-container input {
+    display: block;
+    width: 90%; /* 幅を広げる */
+    max-width: 500px; /* 最大幅を設定 */
+    margin: 0 auto 10px auto; /* 下に余白を追加 */
+    padding: 12px; /* パディングを調整 */
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.search-container button {
+    display: block;
+    width: 90%; /* 幅を検索ボックスと揃える */
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 12px 20px; /* パディングを調整 */
+    font-size: 16px;
+    background-color: #ff5757;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.search-container button:hover {
+    background-color: #e14e4e;
+}
+
+/* ボタンのスタイル */
+button {
+    cursor: pointer;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    padding: 10px 20px;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#search-box {
+    width: calc(100% 90px);
+    padding: 10px;
+    border: 2px solid #ff69b4;
+    border-radius: 25px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#search-button {
+    background-color: #ff69b4;
+    color: #fff;
+    margin-left: 10px;
+}
+
+
+
+.alphabet-button {
+    background-color: #ffb6c1; /* 柔らかいピンク */
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    padding: 10px 15px;
+    margin: 5px;
+}
+
+.alphabet-button:hover {
+    background-color: #ff69b4; /* 濃いピンク */
+}
+
+/* レシピリスト */
+#recipe-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#recipe-list li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #fff0f5; /* 非常に薄いピンク */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 立体感 */
+}
+
+.recipe-image {
+    width: 120px;
+    height: 80px;
+    object-fit: cover; /* 画像調整 */
+    border-radius: 10px;
+    margin-right: 20px;
+}
+
+.recipe-details {
+    flex: 1;
+}
+
+.recipe-details strong {
+    font-size: 1.2em;
+    color: #ff1493; /* 濃いピンク */
+}
+
+.recipe-description {
+    font-size: 0.9em;
+    color: #555;
+    margin-top: 5px;
+}
+
+/* 見出し */
+h3 {
+    font-size: 1.1em;
+    color: #ff69b4;
+    margin: 10px 0 5px;
+}
+
+/* 材料と手順 */
+.ingredients, .instructions {
+    list-style: none;
+    padding-left: 20px;
+}
+
+.ingredients li, .instructions li {
+    font-size: 0.9em;
+    color: #333;
+}
+
+/* モーダル */
+.modal, .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 999;
+}
+
+.modal {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    width: 90%;
+    max-width: 500px;
+    overflow-y: auto;
+    max-height: 80%;
+}
+
+.modal h2 {
+    margin-top: 0;
+}
+
+.modal .close-button {
+    background-color: red;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+}
+
+/* レスポンシブデザイン */
+@media screen and (max-width: 600px) {
+    #search-box {
+        width: calc(100% - 70px);
+    }
+
+    .recipe-image {
+        width: 80px;
+        height: 60px;
+    }
+
+    .alphabet-button {
+        padding: 8px 10px;
+    }
+
+    #recipe-list li {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .recipe-details {
+        margin-top: 10px;
+    }
+}
+
+/* 材料セクションのスタイル */
+#modal-ingredients h4 {
+    font-size: 1em;
+    color: #3f14ff; /* セクションタイトルの濃いピンク */
+    margin-top: 15px; /* セクション間の余白 */
+    margin-bottom: 5px;
+}
